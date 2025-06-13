@@ -1,0 +1,33 @@
+#Untuk membuka nano
+nano periodic_backup.sh
+
+#Script akan dieksekusi
+#!/bin/bash
+
+SOURCE_DIR="$HOME/data"
+BACKUP_DIR="$HOME/backups"
+
+mkdir -p "$BACKUP_DIR"
+
+START_TIME=$(date +%s)
+END_TIME=$((START_TIME + 3600))
+COUNTER=1
+
+while [ $(date +%s) -lt $END_TIME ]; do
+    BACKUP_FILE="$BACKUP_DIR/files${COUNTER}.tar.gz"
+    tar -czf "$BACKUP_FILE" "$SOURCE_DIR"
+    echo "BACKUP ke $BACKUP_FILE selesai pada $(date)"
+
+    COUNTER=$((COUNTER + 1))
+    if [ "$COUNTER" -gt 10 ]; then
+        COUNTER=1
+    fi
+
+    sleep 15
+done
+
+#beri permission
+chmod +x periodic_backup.sh
+
+#eksekusi
+./periodic_backup.sh
