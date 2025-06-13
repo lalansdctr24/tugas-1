@@ -1,0 +1,28 @@
+#Untuk membuka 2 nano untuk menjalankan perintah soal
+#Pertama nano max_suhu.awk
+nano max_suhu.awk
+
+#Script akan dieksekusi
+NR == 1 || $3 > max {
+    max = $3
+    waktu = $1 " " $2
+}
+END {
+    print "Suhu maksimum:", max, "pada", waktu
+}
+
+#Kedua nano avg_kelembapan.awk
+nano avg_kelembapan.awk
+
+#Script akan dieksekusi
+{
+    total += $4
+    count++
+}
+END {
+    avg = total / count
+    print "Rata-rata kelembapan:", avg
+}
+
+#eksekusi agar output keluar sesuai diminta soal
+awk -f avg_kelembapan.awk data.txt
